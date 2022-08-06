@@ -15,6 +15,7 @@ fuel-asm = "0.6"
 fuel-tx = "0.13"
 fuel-vm = { version = "0.12", features = ["random"] }
 gag = "1.0"
+insta = "1.17.2"
 prettydiff = "0.6"
 rand = "0.8"
 regex = "1"

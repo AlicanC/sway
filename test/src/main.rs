@@ -1,7 +1,7 @@
 mod e2e_vm_tests;
 mod ir_generation;
 
-fn main() {
+fn run() {
     let mut locked = false;
     let mut filter_regex = None;
     for arg in std::env::args().skip(1) {
@@ -25,3 +25,15 @@ fn main() {
     e2e_vm_tests::run(locked, filter_regex.as_ref());
     ir_generation::run(filter_regex.as_ref());
 }
+
+fn main() {
+    run()
+}
+
+#[test]
+fn test() {
+    run()
+}
+// #[cfg(test)]
+// mod tests {
+// }
