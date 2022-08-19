@@ -1058,8 +1058,6 @@ pub enum CompileError {
     BreakOutsideLoop { span: Span },
     #[error("\"continue\" used outside of a loop")]
     ContinueOutsideLoop { span: Span },
-    #[error("arguments to \"main()\" are not yet supported. See the issue here: github.com/FuelLabs/sway/issues/845")]
-    MainArgsNotYetSupported { span: Span },
     #[error("Configuration-time constant value is not a constant item.")]
     ConfigTimeConstantNotAConstDecl { span: Span },
 }
@@ -1229,7 +1227,6 @@ impl Spanned for CompileError {
             IntrinsicIncorrectNumTArgs { span, .. } => span.clone(),
             BreakOutsideLoop { span } => span.clone(),
             ContinueOutsideLoop { span } => span.clone(),
-            MainArgsNotYetSupported { span } => span.clone(),
             ConfigTimeConstantNotAConstDecl { span } => span.clone(),
         }
     }

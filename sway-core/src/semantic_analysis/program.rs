@@ -192,18 +192,6 @@ impl TypedProgram {
                 }
             }
         };
-        // check if no arguments passed to a `main()` in a `script` or `predicate`.
-        match &typed_program_kind {
-            TypedProgramKind::Script { main_function, .. }
-            | TypedProgramKind::Predicate { main_function, .. } => {
-                if !main_function.parameters.is_empty() {
-                    errors.push(CompileError::MainArgsNotYetSupported {
-                        span: main_function.span.clone(),
-                    })
-                }
-            }
-            _ => (),
-        }
         ok(typed_program_kind, warnings, errors)
     }
 
