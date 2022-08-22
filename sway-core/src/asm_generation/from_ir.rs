@@ -369,13 +369,49 @@ impl<'ir> AsmBuilder<'ir> {
 
     // Read the argument(s) base from the script data.
     fn read_args_value_from_script_data(&mut self, reg: &VirtualRegister) {
+        let script_data_ptr_reg = self.reg_seqr.next();
         self.bytecode.push(Op {
             opcode: either::Either::Left(VirtualOp::GTF(
-                reg.clone(),
+                script_data_ptr_reg.clone(),
                 VirtualRegister::Constant(ConstantRegister::Zero),
                 VirtualImmediate12 {
                     value: GTFArgs::ScriptData as u16,
                 },
+            )),
+            comment: "Base register for main fn parameter".into(),
+            owning_span: None,
+        });
+        let data_len_reg = self.reg_seqr.next();
+        self.bytecode.push(Op {
+            opcode: either::Either::Left(VirtualOp::GTF(
+                data_len_reg.clone(),
+                VirtualRegister::Constant(ConstantRegister::Zero),
+                VirtualImmediate12 {
+                    value: GTFArgs::ScriptDataLength as u16,
+                },
+            )),
+            comment: "Base register for main fn parameter".into(),
+            owning_span: None,
+        });
+        self.bytecode.push(Op {
+            opcode: either::Either::Left(VirtualOp::ALOC(data_len_reg.clone())),
+            comment: "Base register for main fn parameter".into(),
+            owning_span: None,
+        });
+        self.bytecode.push(Op {
+            opcode: either::Either::Left(VirtualOp::ADDI(
+                reg.clone(),
+                VirtualRegister::Constant(ConstantRegister::HeapPointer),
+                VirtualImmediate12 { value: 1 },
+            )),
+            comment: "Base register for main fn parameter".into(),
+            owning_span: None,
+        });
+        self.bytecode.push(Op {
+            opcode: either::Either::Left(VirtualOp::MCP(
+                reg.clone(),
+                script_data_ptr_reg.clone(),
+                data_len_reg.clone(),
             )),
             comment: "Base register for main fn parameter".into(),
             owning_span: None,

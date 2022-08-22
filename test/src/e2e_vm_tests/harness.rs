@@ -92,6 +92,7 @@ pub(crate) fn runs_in_vm(
 
     let mut i = Interpreter::with_storage(storage, Default::default());
     let transition = i.transact(tx).unwrap();
+    dbg!(&transition.receipts());
     (*transition.state(), script)
 }
 
@@ -147,6 +148,7 @@ pub(crate) fn compile_to_bytes_verbose(
         )),
         locked,
         silent_mode: !verbose,
+        print_finalized_asm: true,
         ..Default::default()
     });
 
